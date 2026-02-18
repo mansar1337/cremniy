@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "filetab.h"
 #include "filetreeview.h"
 #include "filecreatedialog.h"
 #include "./ui_mainwindow.h"
@@ -26,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     QFileSystemModel *model = new QFileSystemModel(this);
 
     // путь, который нужно показать
-    QString path = "/home/igmunv/proj/test";
+    QString path = "/home/igmunv/projects/test";
 
     model->setRootPath(path);
 
@@ -41,6 +42,50 @@ MainWindow::MainWindow(QWidget *parent)
     ui->treeView->setColumnHidden(3, true);
     ui->treeView->header()->hide();
     ui->treeView->setAnimated(true);
+
+    ui->tabWidget->setStyleSheet(R"(
+    QTabBar::tab {
+        min-width: 100px;
+    }
+    )");
+
+    ui->horizontalLayout_2->setContentsMargins(0,0,0,0);
+
+    while (ui->tabWidget->count() > 0) {
+        ui->tabWidget->removeTab(0);
+    }
+
+
+
+    ui->tabWidget->tabBar()->setStyleSheet(R"(
+    QTabBar::tab {
+        border-radius: 0px;
+        border: 1px solid #333;
+        padding: 3px 6px;
+        background: #1e1e1e;
+        color: #ccc;
+
+        font-size: 12px;
+    }
+
+    QTabBar::tab:selected {
+        background: #252526;
+        border-bottom: 2px solid #007acc;
+    }
+
+    QTabBar::tab:hover {
+        background: #2a2d2e;
+    }
+    )");
+
+    ui->tabWidget->setTabsClosable(true);
+
+
+
+    connect(ui->tabWidget, &QTabWidget::tabCloseRequested,
+            this, [=](int index){
+                ui->tabWidget->removeTab(index);
+            });
 
 
     ui->treeView->setEditTriggers(QAbstractItemView::EditKeyPressed);
@@ -60,10 +105,15 @@ void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
 {
     auto *model = static_cast<QFileSystemModel*>(ui->treeView->model());
     if (model->isDir(index)) return;
+    QString fileName = model->fileName(index);
 
-    QMessageBox msgBox;     // диалоговое окно
-    msgBox.setText("File Clicked!"); // устанавливаем текст
-    msgBox.exec();  // отображаем диалоговое окно
+    QWidget *emptyWidget = new QWidget();
+    FileTab *filetabWidget = new FileTab(emptyWidget);
+    QVBoxLayout *vlayout = new QVBoxLayout(emptyWidget);
+    vlayout->addWidget(filetabWidget);
+    vlayout->setContentsMargins(0,0,0,0);
+    emptyWidget->setLayout(vlayout);
+    ui->tabWidget->addTab(emptyWidget, fileName);
 }
 
 

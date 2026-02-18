@@ -24,9 +24,11 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(untitled1
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        codeedittab.h codeedittab.cpp
+
         filetreeview.h filetreeview.cpp
         filecreatedialog.h filecreatedialog.cpp
+        filetab.h filetab.cpp
+        codeeditor.h codeeditor.cpp
     )
     target_include_directories(untitled1 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 # Define target properties for Android with Qt 6 as:
