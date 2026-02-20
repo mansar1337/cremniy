@@ -44,7 +44,7 @@ QTabWidget::pane {
     border: 1px solid #262626;
 }
 
-QTabBar::tab {
+#filesTabWidget QTabBar::tab {
     background: #262626;
     border: 1px solid #1f1f1f;
     padding: 5px;
@@ -52,7 +52,7 @@ QTabBar::tab {
     min-width: 200px;
 }
 
-QTabBar::tab:selected {
+#filesTabWidget QTabBar::tab:selected {
     background: #1f1f1f;
     background: qlineargradient(
         x1:0, y1:1, x2:0, y2:0,
@@ -63,7 +63,7 @@ QTabBar::tab:selected {
     );
 }
 
-#filetab QTabBar::tab {
+#toolTabWidget QTabBar::tab {
     background: #262626;
     border: 1px solid #1f1f1f;
     padding: 5px;
@@ -72,7 +72,7 @@ QTabBar::tab:selected {
     max-width: 200px;
 }
 
-#filetab QTabBar::tab:selected {
+#toolTabWidget QTabBar::tab:selected {
     background: #1f1f1f;
     background: qlineargradient(
         x1:0, y1:0, x2:0, y2:1,

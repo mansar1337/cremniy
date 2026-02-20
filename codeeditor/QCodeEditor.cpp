@@ -485,6 +485,8 @@ void QCodeEditor::keyPressEvent(QKeyEvent* e) {
   auto completerSkip = proceedCompleterBegin(e);
 
   if (!completerSkip) {
+
+    // Replace: tab -> 4 space
     if (m_replaceTab && e->key() == Qt::Key_Tab &&
         e->modifiers() == Qt::NoModifier) {
       insertPlainText(m_tabReplace);
@@ -510,25 +512,24 @@ void QCodeEditor::keyPressEvent(QKeyEvent* e) {
     {
       int charsBack = 0;
       insertPlainText("\n");
-
       if (m_replaceTab)
-        insertPlainText(QString(indentationLevel + defaultIndent, ' '));
+        insertPlainText(m_tabReplace);
       else
-        insertPlainText(QString(tabCounts + 1, '\t'));
+        insertPlainText(QString('\t'));
 
       insertPlainText("\n");
       charsBack++;
 
-      if (m_replaceTab) 
-      {
-        insertPlainText(QString(indentationLevel, ' '));
-        charsBack += indentationLevel;
-      }
-      else 
-      {
-        insertPlainText(QString(tabCounts, '\t'));
-        charsBack += tabCounts;
-      }
+      // if (m_replaceTab)
+      // {
+      //   insertPlainText(QString(indentationLevel, ' '));
+      //   charsBack += indentationLevel;
+      // }
+      // else
+      // {
+      //   insertPlainText(QString(tabCounts, '\t'));
+      //   charsBack += tabCounts;
+      // }
 
       while (charsBack--)
         moveCursor(QTextCursor::MoveOperation::Left);

@@ -45,7 +45,7 @@
        <enum>Qt::Orientation::Horizontal</enum>
       </property>
       <widget class="FileTreeView" name="treeView"/>
-      <widget class="QTabWidget" name="tabWidget">
+      <widget class="FilesTabWidget" name="filesTabWidget">
        <property name="currentIndex">
         <number>0</number>
        </property>
@@ -136,6 +136,12 @@
    <class>FileTreeView</class>
    <extends>QTreeView</extends>
    <header>filetreeview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>FilesTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>filestabwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

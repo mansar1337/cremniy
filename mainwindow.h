@@ -24,6 +24,8 @@ private slots:
 
     void onTreeContextMenu(const QPoint &pos);
 
+    void onSaveFile();
+
 private:
     Ui::MainWindow *ui;
     void openDirectory(const QString &path);

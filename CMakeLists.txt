@@ -32,13 +32,15 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         filetreeview.h filetreeview.cpp
         filecreatedialog.h filecreatedialog.cpp
-        filetab.h filetab.cpp
+        tooltab.h tooltab.cpp
 
         resources.qrc
         style.qss
         style.qss
         iconprovider.h iconprovider.cpp
         codeeditor/CMakeLists.txt
+        filestabwidget.h filestabwidget.cpp
+        filetab.h filetab.cpp
     )
     target_include_directories(untitled1 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 # Define target properties for Android with Qt 6 as:

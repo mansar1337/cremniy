@@ -2,6 +2,7 @@
 
 // Qt
 #include <QTextEdit> // Required for inheritance
+#include <qplaintextedit.h>
 
 class QCompleter;
 class QLineNumberArea;

@@ -3,7 +3,6 @@
 #include "filetreeview.h"
 #include "filecreatedialog.h"
 #include "./ui_mainwindow.h"
-#include "iconprovider.h"
 
 #include "QFileSystemModel"
 
@@ -34,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     QFileSystemModel *model = new QFileSystemModel(this);
 
     // путь, который нужно показать
-    QString path = "/home/igmunv/projects/test";
+    QString path = "/home/igmunv/";
 
     model->setRootPath(path);
 
@@ -54,17 +53,17 @@ MainWindow::MainWindow(QWidget *parent)
     ui->horizontalLayout_2->setContentsMargins(0,0,0,0);
     ui->horizontalLayout->setContentsMargins(0,0,0,0);
 
-    while (ui->tabWidget->count() > 0) {
-        ui->tabWidget->removeTab(0);
+    while (ui->filesTabWidget->count() > 0) {
+        ui->filesTabWidget->removeTab(0);
     }
 
-    ui->tabWidget->setTabsClosable(true);
+    ui->filesTabWidget->setTabsClosable(true);
 
+    connect(ui->actionSave_File, &QAction::triggered, this, &MainWindow::onSaveFile);
 
-
-    connect(ui->tabWidget, &QTabWidget::tabCloseRequested,
+    connect(ui->filesTabWidget, &QTabWidget::tabCloseRequested,
             this, [=](int index){
-                ui->tabWidget->removeTab(index);
+                ui->filesTabWidget->removeTab(index);
             });
 
 
@@ -82,6 +81,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::onSaveFile()
+{
+    FileTab *cfiletab = qobject_cast<FileTab*>(ui->filesTabWidget->currentWidget());
+    if (!cfiletab) return;
+    qDebug() << "Save: " << cfiletab->filePath;
+}
+
 void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
 {
     auto *model = static_cast<QFileSystemModel*>(ui->treeView->model());
@@ -89,14 +95,8 @@ void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
     QString fileName = model->fileName(index);
     QString filePath = model->filePath(index);
 
-    QWidget *emptyWidget = new QWidget();
-    FileTab *filetabWidget = new FileTab(emptyWidget, filePath);
-    QVBoxLayout *vlayout = new QVBoxLayout(emptyWidget);
-    filetabWidget->setObjectName("filetab");
-    vlayout->addWidget(filetabWidget);
-    vlayout->setContentsMargins(0,0,0,0);
-    emptyWidget->setLayout(vlayout);
-    ui->tabWidget->addTab(emptyWidget, fileName);
+    ui->filesTabWidget->openFile(filePath, fileName);
+
 }
 
 
