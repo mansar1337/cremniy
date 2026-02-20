@@ -26,8 +26,8 @@ void FilesTabWidget::openFile(QString filePath, QString tabTitle){
     }
 
     FileTab *filetab = new FileTab(nullptr, filePath);
-    ToolTab *tooltabWidget = new ToolTab(filetab, filePath);
     QVBoxLayout *vlayout = new QVBoxLayout(filetab);
+    ToolTab *tooltabWidget = new ToolTab(filetab, filePath);
     tooltabWidget->setObjectName("toolTabWidget");
     vlayout->addWidget(tooltabWidget);
     vlayout->setContentsMargins(0,0,0,0);

@@ -7,6 +7,7 @@
 #include "QFileSystemModel"
 
 #include "QMessageBox"
+#include "tooltab.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -86,6 +87,16 @@ void MainWindow::onSaveFile()
     FileTab *cfiletab = qobject_cast<FileTab*>(ui->filesTabWidget->currentWidget());
     if (!cfiletab) return;
     qDebug() << "Save: " << cfiletab->filePath;
+
+    QFile file(cfiletab->filePath);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate))
+        return;
+
+    ToolTab* tooltabInner = ui->filesTabWidget->findChild<ToolTab*>("toolTabWidget");
+    tooltabInner.
+    QByteArray data = .toUtf8();
+    file.write(data);
+    file.close();
 }
 
 void MainWindow::on_treeView_doubleClicked(const QModelIndex &index)
@@ -118,6 +129,7 @@ void MainWindow::onTreeContextMenu(const QPoint &pos)
     if (index.isValid()){
 
         QString path = model->filePath(index);
+        QString fileName = model->fileName(index);
         bool isDir = model->isDir(index);  // <-- проверяем, директория ли
 
         if (isDir){
@@ -166,8 +178,8 @@ void MainWindow::onTreeContextMenu(const QPoint &pos)
             });
         }
         else{
-            menu.addAction("Open", [this, path]() {
-
+            menu.addAction("Open", [this, path, fileName]() {
+                ui->filesTabWidget->openFile(path, fileName);
             });
             menu.addAction("Rename", [this, path]() {
                 QFileSystemModel *model = qobject_cast<QFileSystemModel*>(ui->treeView->model());

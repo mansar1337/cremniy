@@ -4,5 +4,6 @@
         <file>code.png</file>
         <file>hex.png</file>
         <file>dasm.png</file>
+        <file>icon.png</file>
     </qresource>
 </RCC>
